@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/gallery/all">Gallery</a></li>
+    <li class="breadcrumb-item active" aria-current="page">View</li>
+  </ol>
+</nav>
+{{object.name}}
+<img src="{{object.photo.url}}"/>
+<form method="POST" action="{{object.get_delete_url}}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger" style="margin-block-start:1rem;"> Delete </button>
+</form>
+
+<form method="POST" action="{{object.mark_as_favorite}}">
+  {% csrf_token %}
+  {% if object.favorite %}
+  <button type="submit" class="btn btn-primary"> Unfavorite </button>
+  {% else %}
+  <button type="submit" class="btn btn-primary"> Mark as Favorite </button>
+  {% endif %}
+</form>
+
+{% endblock %}

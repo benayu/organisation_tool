@@ -1,0 +1,47 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Contacts</li>
+  </ol>
+</nav>
+
+<div class="row">
+    <div class="col-sm-2">
+        <a href="../add" class="btn btn-primary">+ Add New</a>
+    </div>
+    <div class="col-sm-10">
+        <form action="../search" method="GET">
+        <input name="q" type="text" class="form-control" placeholder="Search...">
+        </form>
+    </div>
+</div>
+
+
+{% if len == 0 %}
+<p style="margin-top:1rem;">No contacts.</p>
+{% else %}
+
+<div class="row row-cols-3" style="margin-top:1rem;">
+    {% for instance in object_list %}
+    <div class="col">
+        <div class="card" style="max-width: 20rem;">
+            <div class="card-header">
+                {% if instance.favorite %} ★ {% endif %}
+                <a href="{{instance.get_absolute_url}}" >{{instance.first_name | title}} {{instance.last_name | title}}</a>
+            </div>
+            <div class="card-body">
+                Email: {{instance.email}} <br>
+                Phone: {{instance.phone}}
+
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

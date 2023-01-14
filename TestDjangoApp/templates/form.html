@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form enctype="multipart/form-data" method="post" novalidate>
+        {% csrf_token %}
+    {% if form.media %}
+    {{ form.media }}
+    {% endif %}
+    {{ form.as_p }}
+
+    <input type="submit" class="btn btn-primary" value="Save"/>
+    </form>
+
+{% endblock %}

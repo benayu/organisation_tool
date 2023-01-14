@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div>
+    {{cal|safe}}
+</div>
+<div class="card">
+    <div class="card-header">
+            Due Today
+            <span class="badge badge-primary text-dark">{{task_num}}</span>
+
+    </div>
+        <ul class="list-group list-group-flush">
+            {% if task_num > 0 %}
+            {% for instance in objects_list_1 %}
+            <li class="list-group-item" style="padding:1rem;">
+                <a href="{{ instance.get_absolute_url }}"> {{ instance.summary }} </a>
+                {% if instance.time_due != None %}
+                , finish by {{instance.time_due}}
+
+                {% endif %}
+                <p> {{ instance.description }}</p>
+
+                <div class="progress" style="margin-top:1rem;">
+                    {% if instance.progress <= 25 %}
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{instance.progress}}%;" aria-valuenow="{{instance.progress}}" aria-valuemin="0" aria-valuemax="100">{{instance.progress}}%</div>
+                    {% elif instance.progress < 75 %}
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: {{instance.progress}}%;" aria-valuenow="{{instance.progress}}" aria-valuemin="0" aria-valuemax="100">{{instance.progress}}%</div>
+                    {% elif instance.progress < 100 %}
+                    <div class="progress-bar" role="progressbar" style="width: {{instance.progress}}%;" aria-valuenow="{{instance.progress}}" aria-valuemin="0" aria-valuemax="100">{{instance.progress}}%</div>
+                    {% elif instance.progress >= 100 %}
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"> complete </div>
+
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li class="list-group-item" style="padding:1rem;"> No tasks due today. </li>
+            {% endif %}
+        </ul>
+
+    <div class="card-footer">
+        <a class="btn btn-primary" href="/tasks/add"> + Add New </a>
+        <a class="btn btn-secondary" href="/tasks/all"> View All </a>
+    </div>
+</div>
+
+<div class="card" style="margin-block-start:1rem;">
+    <div class="card-header"> Favorite Notes</div>
+</div>
+
+<div class="card" style="margin-block-start:1rem;">
+    <div class="card-header">
+        Favorite Contacts
+    </div>
+        {% if contacts_num > 0 %}
+    <table class="table table-hover table-bordered" style="margin: 0;">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for instance in objects_list_2 %}
+            <tr>
+                <td> {{ instance.first_name }} {{ instance.last_name }} </td>
+                <td><a href=""> {{ instance.email }} </a></td>
+                <td><a href=""> {{ instance.phone }} </a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="card-body">
+        No favorite contacts.
+    </div>
+    {% endif %}
+
+    <div class="card-footer">
+        <a class="btn btn-secondary" href="/contacts/all"> View All </a>
+    </div>
+</div>
+
+
+
+{% load static %}
+<div class="card" style="margin-block-start:1rem;">
+    <div class="card-header">Favorite Images</div>
+    <div class="row row-cols-4" style="margin:1rem;">
+    {% for instance in objects_list_3 %}
+    <div class="col">
+        <div class="card" style="margin-block-end:1rem;">
+        <img class="card-img-top" src="{{instance.photo.url}}">
+        <a href="{{instance.get_absolute_url}}" class="card-link">{{instance.name}}</a>
+</div>
+    </div>
+    {% endfor %}
+</div>
+
+    <div class="card-footer">
+        <a class="btn btn-secondary" href="/gallery/all"> View All </a>
+    </div>
+</div>
+
+{% endblock %}

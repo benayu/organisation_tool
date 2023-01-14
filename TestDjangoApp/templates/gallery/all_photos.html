@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-2">
+        <a href="../add" class="btn btn-primary">+ Add New</a>
+    </div>
+    <div class="col-sm-10">
+        <form action="../search" method="GET">
+        <input name="q" type="text" class="form-control" placeholder="Search...">
+        </form>
+    </div>
+</div>
+
+
+
+{% if len == 0 %}
+No images.
+
+{% else %}
+
+{% load static %}
+<div class="row row-cols-4" style="margin-top:1rem;">
+    {% for instance in object_list %}
+    <div class="col">
+        <div class="card" style="margin-block-end:1rem;">
+        <img class="card-img-top" src="{{instance.photo.url}}">
+
+            <a href="{{instance.get_absolute_url}}">
+                {% if instance.favorite %}
+            ⭐
+            {% endif %}
+                {{instance.name}}</a>
+
+</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endif %}
+{% endblock%}

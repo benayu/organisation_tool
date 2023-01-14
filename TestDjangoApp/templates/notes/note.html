@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/notes/all">Notes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">View</li>
+  </ol>
+</nav>
+
+<div class="card">
+    <div class="card-body">
+        {% if object.title != None %}
+        <h3>{{object.title}}</h3>
+        {% else %}
+        <h3>Untitled</h3>
+        {% endif %}
+        <p>{{object.content|safe}}</p>
+    </div>
+     <div class="card-footer">
+        <a href="{{object.get_edit_url}}" class="btn btn-primary"> Edit </a>
+        <form method="POST" action="{{object.get_delete_url}}">
+        {% csrf_token %} <button type="submit" class="btn btn-danger"> Delete </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
